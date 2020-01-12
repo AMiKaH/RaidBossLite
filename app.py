@@ -34,7 +34,9 @@ def my_form_post():
 @app.route('/test')
 def getData():
     
-    DBDictionary = {"ICYA H8N" : 'false'}
+    DBDictionary = {"ICYA H8N" : 'false',
+                    "YSJAGAN" : 'true'
+                    }
 
     # Loads the image into memory
     with io.open(file_name, 'rb') as image_file:
@@ -55,21 +57,22 @@ def getData():
     strAll = ''
     plate = ''
 
-    #print(response.text_annotations)
+    print(response.text_annotations)
 
     for text in response.text_annotations:
         strAll += "License plate number is: "
         plate += text.description
         
         if plate[0: len(plate) - 2] in DBDictionary:
-            return strAll + plate + ('Plate is valid' if DBDictionary[plate] == 'false' else 'Plate is invalid')
+            return strAll + plate + ('Plate is valid' if DBDictionary[plate[0: len(plate) - 2]] == 'false' else ' Plate is invalid')
         
-        if plate[0: len(plate) - 1] in DBDictionary:
-            return strAll + plate + ('Plate is valid' if DBDictionary[plate[0: len(plate) - 1]] == 'false' else 'Plate is invalid')
+        if plate[0: len(plate) - 1] in DBDictionary: 
+            return strAll + plate + ('Plate is valid' if DBDictionary[plate[0: len(plate) - 1]] == 'false' else ' Plate is invalid')
 
         if plate[0: len(plate)] in DBDictionary:
-            return strAll + plate + ('Plate is valid' if DBDictionary[plate[0: len(plate) - 1]] == 'false' else 'Plate is invalid')
-
+            return strAll + plate + ('Plate is valid' if DBDictionary[plate[0: len(plate)]] == 'false' else ' Plate is invalid')
+        plate = ''
+        strAll = ''
     return 'License plate not found in database'
 
 
