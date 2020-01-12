@@ -16,7 +16,7 @@ os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'C:\\peaceful-app-264902-aa6e0ccf
 client = vision.ImageAnnotatorClient()
 
 # The name of the image file to annotate
-file_name = os.path.abspath("C:\\Users\\ameer\\OneDrive\\Desktop\\NWHacks\\AI Training\\9.jpg")
+file_name = os.path.abspath("C:\\Users\\ameer\\OneDrive\\Desktop\\NWHacks\\AI Training\\16.jpg")
 
 app = Flask(__name__)
 
@@ -35,7 +35,9 @@ def my_form_post():
 def getData():
     
     DBDictionary = {"ICYA H8N" : 'false',
-                    "YSJAGAN" : 'true'
+                    "YSJAGAN" : 'true',
+                    "399 KNF" : 'false',
+                    "7UIN148" : 'true'
                     }
 
     # Loads the image into memory
@@ -55,24 +57,37 @@ def getData():
     response = client.text_detection(image=image)
 
     strAll = ''
-    plate = ''
+    plate = "\n"
 
-    print(response.text_annotations)
+    #print(response.text_annotations[0])
 
-    for text in response.text_annotations:
+    listText = response.text_annotations[0].description.split('\n')
+
+    print (listText)
+    print (type(listText))
+    for text in listText: #response.text_annotations:
+        
         strAll += "License plate number is: "
-        plate += text.description
+        plate += text
+        #print (plate[0: len(plate) - 1])
         
-        if plate[0: len(plate) - 2] in DBDictionary:
-            return strAll + plate + ('Plate is valid' if DBDictionary[plate[0: len(plate) - 2]] == 'false' else ' Plate is invalid')
-        
-        if plate[0: len(plate) - 1] in DBDictionary: 
-            return strAll + plate + ('Plate is valid' if DBDictionary[plate[0: len(plate) - 1]] == 'false' else ' Plate is invalid')
+        #print(text)
+        #print(plate)
+        #print(type(plate))
 
-        if plate[0: len(plate)] in DBDictionary:
-            return strAll + plate + ('Plate is valid' if DBDictionary[plate[0: len(plate)]] == 'false' else ' Plate is invalid')
+        if plate[0: len(plate) - 2].strip() in DBDictionary:
+            return strAll + plate + (' Plate is valid' if DBDictionary[plate[0: len(plate) - 2].strip()] == 'false' else ' Plate is invalid')
+        
+        if plate[0: len(plate) - 1].strip()  in DBDictionary: 
+            return strAll + plate + (' Plate is valid' if DBDictionary[plate[0: len(plate) - 1].strip()] == 'false' else ' Plate is invalid')
+
+        if plate[0: len(plate)].strip()  in DBDictionary:
+            return strAll + plate + (' Plate is valid' if DBDictionary[plate[0: len(plate)].strip()] == 'false' else ' Plate is invalid')
+
+        #if plate[len(plate.strip()) - 1] == '\n':
         plate = ''
         strAll = ''
+
     return 'License plate not found in database'
 
 
