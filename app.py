@@ -16,7 +16,7 @@ os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'C:\\peaceful-app-264902-aa6e0ccf
 client = vision.ImageAnnotatorClient()
 
 # The name of the image file to annotate
-file_name = os.path.abspath("C:\\Users\\ameer\\OneDrive\\Desktop\\NWHacks\\AI Training\\16.jpg")
+file_name = os.path.abspath("C:\\Users\\ameer\\OneDrive\\Desktop\\NWHacks\\AI Training\\8.jpg")
 
 app = Flask(__name__)
 
@@ -37,7 +37,9 @@ def getData():
     DBDictionary = {"ICYA H8N" : 'false',
                     "YSJAGAN" : 'true',
                     "399 KNF" : 'false',
-                    "7UIN148" : 'true'
+                    "7UIN148" : 'true',
+                    "EVS ROCK": 'true',
+                    "WMY-9051": 'true'
                     }
 
     # Loads the image into memory
